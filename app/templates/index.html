@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Flask PostgreSQL App{% endblock %}
+
+{% block content %}
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="card-title mb-0">Recent Works</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Artist</th>
+                  <th>Rating</th>
+                  <th>Source</th>
+                  <th>Code</th>
+                  <th>Date Added</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for work, artist_name in works %}
+                <tr>
+                  <td>{{ work.title }}</td>
+                  <td>{{ artist_name }}</td>
+                  <td>{{ work.rating }}/10</td>
+                  <td>{{ work.source }}</td>
+                  <td>{{ work.code }}</td>
+                  <td>{{ work.date_added.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

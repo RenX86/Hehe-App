@@ -1,0 +1,106 @@
+/* Base styles - refined for consistency and improved spacing */
+body {
+  background-color: #f8f9fa;
+  color: #212529;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6; /* Improved readability */
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px; /* Expanded for larger screens */
+  padding: 15px;
+  margin: 0 auto;
+}
+
+/* Navbar improvements */
+.navbar-collapse {
+  background-color: #0d6efd;
+  padding: 10px;
+  border-radius: 0 0 10px 10px;
+  z-index: 1000;
+}
+
+.nav-link {
+  color: #ffffff !important;  /* White text color */
+  font-weight: medium;          /* Optional for emphasis */
+}
+
+.nav-link:hover {
+  color: #ffd700 !important;
+  border-bottom: 2px solid #ffd700;  /* Gold color on hover */
+}
+
+
+/* Table improvements */
+.table-responsive {
+  overflow-x: auto;
+  max-height: none;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  background-color: #f1f3f5;
+  z-index: 10;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e9ecef; /* Subtle hover effect */
+  cursor: pointer;
+}
+
+/* Card improvements */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile improvements */
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .d-md-flex {
+    flex-direction: column !important;
+  }
+
+  .d-md-flex .btn {
+    margin-bottom: 0.5rem;
+  }
+
+  .col-md-6.offset-md-3 {
+    padding: 0 10px;
+  }
+
+  .col-md-4 {
+    margin-bottom: 1rem;
+  }
+
+  .table-responsive table td:nth-child(4),
+  .table-responsive table th:nth-child(4),
+  .table-responsive table td:nth-child(5),
+  .table-responsive table th:nth-child(5) {
+    display: none; /* Hide less relevant columns on mobile */
+  }
+}
+
+/* Enhanced footer */
+footer {
+  background-color: #e9ecef;
+  padding: 15px 0;
+  text-align: center;
+  border-top: 3px solid #4361ee;
+}
