@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-container">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to Hehe App</h1>
+            <p class="hero-subtitle">Your personal digital collection manager with artist-focused organization</p>
+            
+            <div class="cta-buttons">
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg cta-button">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                </a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-lg cta-button-secondary">
+                    <i class="bi bi-person-plus me-2"></i>Create Account
+                </a>
+            </div>
+        </div>
+        <div class="hero-graphic">
+            <div class="graphic-container">
+                <div class="floating-card card-1">
+                    <i class="bi bi-collection"></i>
+                    <span>Organize collections</span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="bi bi-search"></i>
+                    <span>Find anything quickly</span>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="bi bi-shield-check"></i>
+                    <span>Secure storage</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="features-section">
+        <h2 class="section-title">Why Choose Hehe App?</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-collection"></i>
+                </div>
+                <h3>Organized Collection</h3>
+                <p>Keep all your digital content neatly organized in one place with powerful categorization features.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-palette"></i>
+                </div>
+                <h3>Artist-Centric View</h3>
+                <p>Browse your collection by artist with our intuitive parent-child layout in the <a href="{{ url_for('main.sauce') }}">sauce page</a>.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-filter"></i>
+                </div>
+                <h3>Advanced Filtering</h3>
+                <p>Find exactly what you're looking for with powerful filtering by rating, source, and artist name.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-speedometer2"></i>
+                </div>
+                <h3>Fast Performance</h3>
+                <p>Enjoy optimized loading with pagination and efficient database queries, even with large collections.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="testimonial-section">
+        <div class="testimonial-content">
+            <div class="quote-mark">
+                <i class="bi bi-quote"></i>
+            </div>
+            <p class="testimonial-text">The artist grouping feature is exactly what I needed. Being able to filter by ratings and view my collection organized by creators has saved me so much time.</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">
+                    <span>AC</span>
+                </div>
+                <div class="author-info">
+                    <h4>Art Collector</h4>
+                    <p>Hehe App User</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cta-section">
+        <h2>Ready to organize your collection?</h2>
+        <p>Join other collectors who are already using Hehe App</p>
+        <div class="cta-buttons centered">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg cta-button">
+                <i class="bi bi-person-plus me-2"></i>Create Free Account
+            </a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-lg cta-button-secondary">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Home Container */
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    align-items: center;
+    min-height: 80vh;
+    padding: 2rem 0;
+    position: relative;
+}
+
+@media (max-width: 992px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+    }
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-graphic {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 576px) {
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+.cta-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: var(--gradient-primary);
+    border: none;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    background: var(--gradient-hover);
+}
+
+.cta-button-secondary {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.cta-button-secondary:hover {
+    background: rgba(var(--primary-rgb), 0.1);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Floating Cards Animation */
+.graphic-container {
+    position: relative;
+    width: 350px;
+    height: 350px;
+}
+
+.floating-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    animation: floating 6s infinite ease-in-out;
+}
+
+.floating-card i {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+.card-1 {
+    top: 20%;
+    left: 0;
+    animation-delay: 0s;
+}
+
+.card-2 {
+    top: 40%;
+    right: 0;
+    animation-delay: 2s;
+}
+
+.card-3 {
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Features Section */
+.features-section {
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: var(--text-color);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-color: rgba(var(--primary-rgb), 0.3);
+}
+
+.feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, rgba(var(--primary-rgb), 0.1), rgba(111, 66, 193, 0.1));
+}
+
+.feature-icon i {
+    font-size: 2rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.feature-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Testimonial Section */
+.testimonial-section {
+    padding: 5rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.testimonial-content {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 3rem;
+    border: 1px solid var(--border-color);
+    position: relative;
+    max-width: 800px;
+    text-align: center;
+}
+
+.quote-mark {
+    font-size: 5rem;
+    color: rgba(var(--primary-rgb), 0.1);
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
+}
+
+.testimonial-text {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+}
+
+.author-info h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+}
+
+.author-info p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 5rem 0;
+    text-align: center;
+    background: var(--gradient-bg-light);
+    border-radius: 20px;
+    margin-bottom: 5rem;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.cta-section p {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.centered {
+    justify-content: center;
+}
+</style>
+{% endblock %} 

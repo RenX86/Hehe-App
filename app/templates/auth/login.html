@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-container">
+    <div class="card login-card">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <h2 class="card-title mb-2">Welcome Back</h2>
+                <p class="text-muted">Sign in to your account</p>
+            </div>
+            
+            <form method="POST" action="{{ url_for('auth.login') }}" class="login-form">
+                <div class="mb-4 input-group-custom">
+                    <div class="input-icon">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control custom-input" id="login" name="login" 
+                               required placeholder="Email or Username">
+                        <label for="login">Email or Username</label>
+                    </div>
+                </div>
+                
+                <div class="mb-4 input-group-custom">
+                    <div class="input-icon">
+                        <i class="bi bi-lock-fill"></i>
+                    </div>
+                    <div class="form-floating password-field">
+                        <input type="password" class="form-control custom-input" id="password" name="password" 
+                               required placeholder="Password">
+                        <label for="password">Password</label>
+                        <button type="button" class="password-toggle" onclick="togglePassword()" title="Toggle password visibility">
+                            <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary login-button">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                    </button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-4">
+                <div class="login-options mb-3">
+                    <a href="{{ url_for('auth.register') }}" class="text-decoration-none">
+                        <i class="bi bi-person-plus"></i> Create Account
+                    </a>
+                    <span class="divider"></span>
+                    <a href="{{ url_for('auth.verify') }}" class="text-decoration-none">
+                        <i class="bi bi-patch-check"></i> Verify Email
+                    </a>
+                </div>
+                <p class="domain-info">
+                    <i class="bi bi-info-circle"></i>
+                    Only Gmail and ProtonMail accounts are supported
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.login-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.login-card {
+    background-color: var(--dark-card);
+    border-radius: 10px;
+    border: 1px solid var(--dark-border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.card-title {
+    color: var(--dark-text);
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.input-group-custom {
+    position: relative;
+    display: flex;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.input-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--dark-border);
+    border-right: none;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    color: var(--dark-text-muted);
+    width: 48px;
+}
+
+.input-icon i {
+    font-size: 1.2rem;
+}
+
+.form-floating {
+    flex: 1;
+}
+
+.form-floating .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 58px;
+    padding-left: 16px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--dark-border);
+    color: var(--dark-text);
+}
+
+.form-floating .form-control:focus {
+    border-color: var(--dark-link-hover);
+    box-shadow: none;
+}
+
+.form-floating label {
+    padding-left: 16px;
+    color: var(--dark-text-muted);
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: var(--dark-text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.password-toggle:hover {
+    color: var(--dark-text);
+}
+
+.login-button {
+    height: 48px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #1a73e8, #5c98e6);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.login-button:hover {
+    background: linear-gradient(to right, #1a73e8, #4285f4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-options a {
+    color: var(--dark-link-hover);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.login-options a:hover {
+    color: #fff;
+}
+
+.divider {
+    display: inline-block;
+    width: 1px;
+    height: 20px;
+    background-color: var(--dark-border);
+    margin: 0 15px;
+}
+
+.domain-info {
+    font-size: 0.8rem;
+    color: var(--dark-text-muted);
+    margin-top: 1.5rem;
+}
+
+.domain-info i {
+    font-size: 0.9rem;
+    margin-right: 5px;
+}
+</style>
+
+<script>
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.replace('bi-eye-slash', 'bi-eye');
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.replace('bi-eye', 'bi-eye-slash');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Set focus to the login field
+    document.getElementById('login').focus();
+    
+    // Add shaking animation if there's an error alert
+    const errorAlert = document.querySelector('.alert-danger, .alert-error');
+    const loginForm = document.querySelector('.login-form');
+    
+    if (errorAlert && loginForm) {
+        loginForm.classList.add('shake');
+        setTimeout(() => {
+            loginForm.classList.remove('shake');
+        }, 500);
+    }
+});
+</script>
+{% endblock %} 
