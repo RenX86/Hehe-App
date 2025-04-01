@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="page-header mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-1">Sauce Collection</h2>
+                <p class="text-muted mb-0">{{ total_works }} works from various artists</p>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+                <div class="active-filters">
+                    {% if request.args.get('min_rating') or request.args.get('max_rating') or request.args.get('source') or request.args.get('artist') %}
+                    <span class="filter-badge">
+                        Active Filters
+                        <a href="{{ url_for('main.sauce') }}" class="clear-filters" title="Clear all filters">×</a>
+                    </span>
+                    {% endif %}
+                </div>
+                <button type="button" class="btn btn-filter" data-bs-toggle="modal" data-bs-target="#filterModal">
+                    <i class="bi bi-funnel"></i> Filter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {% if works_by_artist %}
+    {% for artist_name, works in works_by_artist.items() %}
+    <div class="artist-section mb-4">
+        <div class="artist-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <h3 class="mb-0">{{ artist_name }}</h3>
+                <span class="work-count">{{ works|length }} works</span>
+            </div>
+            <div class="artist-stats">
+                <span class="avg-rating" title="Average Rating">
+                    <i class="bi bi-star-fill"></i>
+                    {{ "%.1f"|format((works|map(attribute='rating')|sum) / works|length) }}
+                </span>
+            </div>
+        </div>
+        <div class="work-list mt-2">
+            {% for work in works %}
+            <div class="work-item">
+                <div class="work-info">
+                    <span class="title-text">
+                        {% if work.url %}
+                        <a href="{{ work.url }}" target="_blank" rel="noopener noreferrer" class="work-link" title="Open in new tab">
+                            {{ work.title }}
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        {% else %}
+                        {{ work.title }}
+                        {% endif %}
+                    </span>
+                    <div class="badges">
+                        {% if work.code %}
+                        <span class="code-badge" title="Work Code">
+                            {{ work.code }}
+                        </span>
+                        {% endif %}
+                        {% if work.source %}
+                        <span class="source-badge" title="Source">
+                            <i class="bi bi-folder"></i>{{ work.source }}
+                        </span>
+                        {% endif %}
+                        <span class="rating-badge" title="Rating">
+                            <i class="bi bi-star-fill"></i>{{ work.rating }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="no-results text-center py-5">
+        <i class="bi bi-search display-4 mb-3"></i>
+        <h4>No works found</h4>
+        <p class="text-muted">Try adjusting your filters or clearing them to see more results.</p>
+        <a href="{{ url_for('main.sauce') }}" class="btn btn-filter mt-2">Clear Filters</a>
+    </div>
+    {% endif %}
+
+    {% if total_pages > 1 %}
+    <div class="pagination-controls mt-4 mb-3 d-flex justify-content-center align-items-center">
+        {% if page > 1 %}
+        {% set prev_url = url_for('main.sauce', page=page-1, 
+            min_rating=request.args.get('min_rating'),
+            max_rating=request.args.get('max_rating'),
+            source=request.args.get('source'),
+            artist=request.args.get('artist')) %}
+        <a href="{{ prev_url }}" class="btn btn-sm btn-filter me-3">
+            <i class="bi bi-chevron-left"></i> Previous
+        </a>
+        {% endif %}
+        
+        <div class="page-info">
+            Page <strong>{{ page }}</strong> of <strong>{{ total_pages }}</strong>
+        </div>
+        
+        {% if page < total_pages %}
+        {% set next_url = url_for('main.sauce', page=page+1,
+            min_rating=request.args.get('min_rating'),
+            max_rating=request.args.get('max_rating'),
+            source=request.args.get('source'),
+            artist=request.args.get('artist')) %}
+        <a href="{{ next_url }}" class="btn btn-sm btn-filter ms-3">
+            Next <i class="bi bi-chevron-right"></i>
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">
+                    <i class="bi bi-funnel"></i> Filter Works
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="filterForm" method="GET">
+                    <div class="mb-3">
+                        <label for="min_rating" class="form-label">
+                            <i class="bi bi-star"></i> Minimum Rating
+                        </label>
+                        <input type="number" class="form-control" id="min_rating" name="min_rating" 
+                               min="1" max="10" value="{{ request.args.get('min_rating', '') }}"
+                               placeholder="e.g., 7">
+                    </div>
+                    <div class="mb-3">
+                        <label for="max_rating" class="form-label">
+                            <i class="bi bi-star-fill"></i> Maximum Rating
+                        </label>
+                        <input type="number" class="form-control" id="max_rating" name="max_rating" 
+                               min="1" max="10" value="{{ request.args.get('max_rating', '') }}"
+                               placeholder="e.g., 10">
+                    </div>
+                    <div class="mb-3">
+                        <label for="source" class="form-label">
+                            <i class="bi bi-folder"></i> Source
+                        </label>
+                        <input type="text" class="form-control" id="source" name="source" 
+                               value="{{ request.args.get('source', '') }}"
+                               placeholder="Enter source name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="artist" class="form-label">
+                            <i class="bi bi-person"></i> Artist
+                        </label>
+                        <input type="text" class="form-control" id="artist" name="artist" 
+                               value="{{ request.args.get('artist', '') }}"
+                               placeholder="Enter artist name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                {% if request.args %}
+                <a href="{{ url_for('main.sauce') }}" class="btn btn-outline-secondary">Clear Filters</a>
+                {% endif %}
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="filterForm" class="btn btn-primary">
+                    <i class="bi bi-funnel"></i> Apply Filters
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.page-header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.artist-section {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.artist-header {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.work-count {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    background: var(--badge-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+}
+
+.avg-rating {
+    font-size: 0.875rem;
+    color: var(--text-color);
+    background: var(--rating-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.work-list {
+    margin-top: 0.5rem;
+}
+
+.work-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.work-item:hover {
+    background: var(--hover-bg);
+}
+
+.work-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.title-text {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-right: 1rem;
+    flex: 1;
+}
+
+.work-link {
+    color: var(--text-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.work-link:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+}
+
+.work-link .bi {
+    font-size: 0.875rem;
+    opacity: 0.7;
+}
+
+.badges {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.code-badge, .source-badge, .rating-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.code-badge {
+    background-color: var(--badge-bg);
+    color: var(--text-color);
+    font-family: monospace;
+}
+
+.source-badge {
+    background-color: var(--source-color);
+    color: var(--text-color);
+}
+
+.rating-badge {
+    background-color: var(--rating-color);
+    color: var(--text-color);
+}
+
+.filter-badge {
+    background: var(--badge-bg);
+    color: var(--text-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.clear-filters {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.clear-filters:hover {
+    color: var(--link-hover);
+}
+
+.page-info {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.no-results {
+    color: var(--text-muted);
+}
+
+.no-results .bi {
+    opacity: 0.5;
+}
+
+/* Modal Styles */
+.modal-content {
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+}
+
+.form-control {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.form-control:focus {
+    background: var(--input-bg);
+    border-color: var(--border-focus);
+    color: var(--text-color);
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-rgb), 0.25);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add loading state to links except external work links
+    document.querySelectorAll('a:not([target="_blank"])').forEach(link => {
+        link.addEventListener('click', function() {
+            document.body.style.cursor = 'wait';
+        });
+    });
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+{% endblock %} 

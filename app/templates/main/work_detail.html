@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0">Work Details</h1>
+                    <a href="{{ url_for('main.sauce') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h2 class="h4 mb-3">{{ work.title }}</h2>
+                            <div class="mb-4">
+                                <h5 class="text-muted">Artist</h5>
+                                <p class="mb-0">{{ work.artist.artist_name if work.artist else 'Unknown' }}</p>
+                            </div>
+                            <div class="mb-4">
+                                <h5 class="text-muted">Rating</h5>
+                                <p class="mb-0">
+                                    {% if work.rating is not none %}
+                                    <span class="badge bg-{{ 'success' if work.rating >= 7 else 'warning' if work.rating >= 4 else 'danger' }}">
+                                        {{ work.rating }}/10
+                                    </span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">N/A</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="mb-4">
+                                <h5 class="text-muted">Code</h5>
+                                <p class="mb-0">{{ work.code or 'N/A' }}</p>
+                            </div>
+                            <div class="mb-4">
+                                <h5 class="text-muted">Source</h5>
+                                <p class="mb-0">{{ work.source or 'N/A' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Additional Information</h5>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <strong>Date Added:</strong><br>
+                                            {{ work.date_added.strftime('%Y-%m-%d %H:%M') }}
+                                        </li>
+                                        <li class="mb-2">
+                                            <strong>Work ID:</strong><br>
+                                            {{ work.work_id }}
+                                        </li>
+                                        {% if work.artist %}
+                                        <li class="mb-2">
+                                            <strong>Artist ID:</strong><br>
+                                            {{ work.artist_id }}
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

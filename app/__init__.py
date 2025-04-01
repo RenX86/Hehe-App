@@ -23,8 +23,13 @@ def create_app():
     bcrypt.init_app(app)
     mail.init_app(app)
 
-    from app.models.user import User  # Move import here
-    from app.routes import auth, main  # Import blueprints
+    # Import models here to register them with SQLAlchemy
+    from app.models.user import User
+    from app.models.work import Work
+    from app.models.artist import Artist
+
+    # Import and register blueprints
+    from app.routes import auth, main
     app.register_blueprint(auth.bp, url_prefix='/auth')
     app.register_blueprint(main.bp)
 

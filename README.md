@@ -157,10 +157,24 @@ This application is pre-configured for deployment on Render.com:
 2. Create a new Web Service on Render
 3. Connect to your GitHub repository
 4. Set the following:
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `gunicorn -w 4 -b 0.0.0.0:$PORT run:app`
-5. Add your environment variables in the Render dashboard
-6. Deploy!
+   - **Build Command**: `pip install -r requirements.txt && flask db init && flask db migrate && flask db upgrade`
+   - **Start Command**: `gunicorn run:app`
+   - **Python Version**: 3.9 or higher
+5. Add your environment variables in the Render dashboard:
+   ```
+   DATABASE_URL=postgresql://postgres:[YOUR_RENDER_DB_PASSWORD]@[YOUR_RENDER_DB_HOST]/postgres
+   SECRET_KEY=[SECURE_SECRET_KEY]
+   MAIL_SERVER=smtp.example.com
+   MAIL_PORT=587
+   MAIL_USE_TLS=True
+   MAIL_USERNAME=your-email@example.com
+   MAIL_PASSWORD=your-email-password
+   MAIL_DEFAULT_SENDER=your-email@example.com
+   ```
+6. If you're using Render's PostgreSQL, create a database service and link it to your web service.
+7. Deploy!
+
+> **Troubleshooting Tip**: If you see an error like `No module named 'app.models.work'`, make sure your `app/models/__init__.py` file correctly imports and exposes all models.
 
 ## 🧰 Development
 
