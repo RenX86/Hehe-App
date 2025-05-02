@@ -3,20 +3,20 @@
 {% block content %}
 <div class="card">
     <div class="card-body">
-        <h2 class="card-title text-center mb-4 text-light">Register</h2>
+        <h2 class="card-title text-center mb-4">Register</h2>
         
         <form method="POST" action="{{ url_for('auth.register') }}" onsubmit="return validateForm()">
             <div class="mb-3">
-                <label for="username" class="form-label text-light">Username</label>
+                <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" required 
                        pattern="[a-zA-Z0-9\s.,!?-]+" title="Only letters, numbers, and basic punctuation allowed">
             </div>
             
             <div class="mb-3">
-                <label for="email" class="form-label text-light">Email Address</label>
+                <label for="email" class="form-label">Email Address</label>
                 <input type="email" class="form-control" id="email" name="email" required
                        pattern="[a-zA-Z0-9._%+-]+@(gmail\.com|protonmail\.com|proton\.me|pm\.me)$">
-                <div class="form-text text-light-emphasis">
+                <div class="form-text">
                     Only Gmail and ProtonMail addresses are accepted:
                     <ul class="mb-0 domain-list">
                         <li>username@gmail.com</li>
@@ -28,16 +28,16 @@
             </div>
             
             <div class="mb-3">
-                <label for="password" class="form-label text-light">Password</label>
+                <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password" required>
-                <div class="form-text text-light-emphasis">
+                <div class="form-text">
                     Password must contain:
                     <ul class="mb-0 requirements-list">
-                        <li id="length" class="requirement text-light">At least 8 characters</li>
-                        <li id="uppercase" class="requirement text-light">One uppercase letter</li>
-                        <li id="lowercase" class="requirement text-light">One lowercase letter</li>
-                        <li id="number" class="requirement text-light">One number</li>
-                        <li id="special" class="requirement text-light">One special character (!@#$%^&*(),.?":{}|<>)</li>
+                        <li id="length" class="requirement">At least 8 characters</li>
+                        <li id="uppercase" class="requirement">One uppercase letter</li>
+                        <li id="lowercase" class="requirement">One lowercase letter</li>
+                        <li id="number" class="requirement">One number</li>
+                        <li id="special" class="requirement">One special character (!@#$%^&*(),.?":{}|<>)</li>
                     </ul>
                 </div>
             </div>
@@ -48,56 +48,10 @@
         </form>
         
         <div class="text-center mt-3">
-            <p class="text-light">Already have an account? <a href="{{ url_for('auth.login') }}" class="text-primary">Login here</a></p>
+            <p>Already have an account? <a href="{{ url_for('auth.login') }}" class="text-primary">Login here</a></p>
         </div>
     </div>
 </div>
-
-<style>
-.requirements-list, .domain-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.domain-list li {
-    opacity: 0.8;
-    margin: 0.25rem 0;
-    font-size: 0.875rem;
-}
-
-.requirement {
-    opacity: 0.8;
-    margin: 0.25rem 0;
-}
-
-.requirement.valid {
-    color: var(--bs-success) !important;
-    opacity: 1;
-}
-
-.requirement.invalid {
-    color: var(--bs-danger) !important;
-    opacity: 1;
-}
-
-/* Dark mode input styles */
-.form-control {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: var(--bs-light);
-}
-
-.form-control:focus {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.25);
-    color: var(--bs-light);
-}
-
-.card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.15);
-}
-</style>
 
 <script>
 function validateEmail() {

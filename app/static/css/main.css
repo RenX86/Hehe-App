@@ -171,7 +171,7 @@ body {
 .form-control {
     height: 40px;
     border-radius: 6px;
-    border: 1px solid hsl(var(--input));
+    border: 1px solid var(--border-color);
     background-color: var(--input-bg);
     padding: 8px 12px;
     font-size: 14px;
@@ -184,7 +184,7 @@ body {
 }
 
 .form-control:focus {
-    border-color: var(--input-bg);
+    background-color: var(--input-bg);
     border-color: var(--border-focus);
     color: var(--text-color);
     box-shadow: none;
@@ -196,6 +196,43 @@ body {
     color: var(--text-color);
     margin-bottom: 8px;
     display: block;
+}
+
+[data-theme="dark"] .form-control {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .form-control:focus {
+    background-color: var(--card-bg);
+    border-color: var(--border-focus);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .form-label {
+    color: var(--text-color);
+}
+
+/* Form floating styles */
+.form-floating > .form-control {
+    padding-left: 45px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.form-floating > .form-control:focus {
+    background-color: var(--card-bg);
+    border-color: var(--border-focus);
+    box-shadow: none;
+    color: var(--text-color);
+    outline: none;
+}
+
+.form-floating > label {
+    padding-left: 45px;
+    color: var(--text-muted);
 }
 
 .navbar {
@@ -442,23 +479,6 @@ a:hover {
     border-top: 1px solid var(--border-color);
 }
 
-.form-control {
-    background-color: var(--input-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-}
-
-.form-control:focus {
-    background-color: var(--input-bg);
-    border-color: var(--border-focus);
-    color: var(--text-color);
-    box-shadow: none;
-}
-
-.form-label {
-    color: var(--text-color);
-}
-
 /* Add this helper class for browser compatibility */
 .no-backdrop-filter {
     background-color: rgba(0, 0, 0, 0.5) !important;
@@ -491,4 +511,31 @@ a:hover {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+}
+
+/* Register page requirements and domain list styles */
+.requirements-list, .domain-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.domain-list li {
+    opacity: 0.8;
+    margin: 0.25rem 0;
+    font-size: 0.875rem;
+}
+
+.requirement {
+    opacity: 0.8;
+    margin: 0.25rem 0;
+}
+
+.requirement.valid {
+    color: var(--bs-success, #198754) !important;
+    opacity: 1;
+}
+
+.requirement.invalid {
+    color: var(--bs-danger, #dc3545) !important;
+    opacity: 1;
 } 

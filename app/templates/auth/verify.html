@@ -3,21 +3,21 @@
 {% block content %}
 <div class="card">
     <div class="card-body">
-        <h2 class="card-title text-center mb-4 text-light">Verify Your Email</h2>
+        <h2 class="card-title text-center mb-4">Verify Your Email</h2>
         
-        <p class="text-light text-center mb-4">
+        <p class="text-center mb-4">
             Please enter your email and the 6-digit verification code we sent you.
         </p>
         
         <form method="POST" action="{{ url_for('auth.verify') }}">
             <div class="mb-3">
-                <label for="email" class="form-label text-light">Email Address</label>
+                <label for="email" class="form-label">Email Address</label>
                 <input type="email" class="form-control" id="email" name="email" 
                        required placeholder="Enter your email">
             </div>
             
             <div class="mb-4">
-                <label for="code" class="form-label text-light">Verification Code</label>
+                <label for="code" class="form-label">Verification Code</label>
                 <input type="text" class="form-control verification-input text-center" 
                        id="code" name="code" required pattern="[0-9]{6}" maxlength="6" 
                        placeholder="000000"
@@ -30,7 +30,7 @@
         </form>
         
         <div class="text-center mt-3">
-            <p class="text-light">
+            <p>
                 Didn't receive the code? 
                 <a href="{{ url_for('auth.resend_code') }}" class="text-primary">Resend code</a>
             </p>
@@ -39,25 +39,23 @@
 </div>
 
 <style>
-/* Dark mode input styles */
 .form-control {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: var(--bs-light);
+    background-color: var(--input-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
 }
 
 .form-control:focus {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.25);
-    color: var(--bs-light);
+    background-color: var(--input-bg);
+    border-color: var(--border-focus);
+    color: var(--text-color);
 }
 
 .card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.15);
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
 }
 
-/* Verification code input styling */
 .verification-input {
     font-family: monospace;
     font-size: 1.5rem;
@@ -67,30 +65,23 @@
     padding-left: 1rem;
 }
 
-/* Placeholder color */
 .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-muted);
 }
 </style>
 
 <script>
-// Auto-format verification code input
 document.getElementById('code').addEventListener('input', function(e) {
-    // Remove any non-digit characters
     this.value = this.value.replace(/\D/g, '');
-    
-    // Limit to 6 digits
     if (this.value.length > 6) {
         this.value = this.value.slice(0, 6);
     }
 });
 
-// Store email in hidden field for resend
 document.getElementById('email').addEventListener('input', function(e) {
     localStorage.setItem('verificationEmail', e.target.value);
 });
 
-// Pre-fill email if available
 window.addEventListener('load', function() {
     const savedEmail = localStorage.getItem('verificationEmail');
     if (savedEmail) {
