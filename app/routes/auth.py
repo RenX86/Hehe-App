@@ -201,6 +201,10 @@ def login():
                 flash('Please verify your email before logging in.', 'warning')
                 return redirect(url_for('auth.verify'))
             
+            if not user.is_approved:
+                flash('Your account is pending approval. Please contact the administrator.', 'warning')
+                return render_template('auth/login.html')
+            
             login_user(user)
             return redirect(url_for('main.dashboard'))
         

@@ -98,8 +98,8 @@ body {
 .main-content {
     flex: 1;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
     padding: 2rem 1rem;
     width: 100%;
     position: relative;
@@ -172,23 +172,30 @@ body {
     height: 40px;
     border-radius: 6px;
     border: 1px solid hsl(var(--input));
-    background-color: transparent;
+    background-color: var(--input-bg);
     padding: 8px 12px;
     font-size: 14px;
     transition: all 0.2s ease;
-    color: hsl(var(--foreground));
+    color: var(--text-color);
+    line-height: 24px;
+    display: block;
+    width: 100%;
+    text-align: left;
 }
 
 .form-control:focus {
-    border-color: hsl(var(--ring));
-    box-shadow: 0 0 0 1px hsl(var(--ring));
+    border-color: var(--input-bg);
+    border-color: var(--border-focus);
+    color: var(--text-color);
+    box-shadow: none;
 }
 
 .form-label {
     font-size: 14px;
     font-weight: 500;
-    color: hsl(var(--foreground));
+    color: var(--text-color);
     margin-bottom: 8px;
+    display: block;
 }
 
 .navbar {
@@ -455,4 +462,33 @@ a:hover {
 /* Add this helper class for browser compatibility */
 .no-backdrop-filter {
     background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.cta-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: var(--gradient-primary);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    background: var(--gradient-hover);
+}
+
+.cta-button-secondary {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 } 

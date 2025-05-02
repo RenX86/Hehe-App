@@ -29,8 +29,9 @@ def create_app():
     from app.models.artist import Artist
 
     # Import and register blueprints
-    from app.routes import auth, main
+    from app.routes import auth, main, admin
     app.register_blueprint(auth.bp, url_prefix='/auth')
     app.register_blueprint(main.bp)
+    app.register_blueprint(admin.bp)
 
     return app
